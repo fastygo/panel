@@ -24,6 +24,8 @@ Applications own:
 
 - CMS content services, CRM leads/deals, operations metrics/incidents, chat conversations, storage adapters, external APIs, and business workflows.
 
+Panel does not own Codex content fields or FormSet editor binding. A backend projects a manifest into these descriptors.
+
 ## Minimal Example
 
 ```go
