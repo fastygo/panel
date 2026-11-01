@@ -1,37 +1,13 @@
 package panel
 
-import (
-	"fmt"
-	"strings"
+import "github.com/fastygo/codex/schema"
+
+// RecordTypeID and RecordType are the Codex record vocabulary. panel owns no
+// record model; project one into a Resource with ResourceFromRecord.
+type (
+	RecordTypeID = schema.RecordTypeID
+	RecordType   = schema.RecordType
 )
-
-type RecordTypeID string
-
-type RecordType struct {
-	ID          RecordTypeID
-	Label       string
-	Description string
-	Fields      []Field
-	Form        FormSchema
-	Table       TableSchema[string]
-	Detail      DetailSchema
-	Permissions []RecordPermission
-}
-
-func (t RecordType) Validate() error {
-	if strings.TrimSpace(string(t.ID)) == "" {
-		return fmt.Errorf("record type id is required")
-	}
-	if strings.TrimSpace(t.Label) == "" {
-		return fmt.Errorf("record type %q label is required", t.ID)
-	}
-	for _, field := range t.Fields {
-		if err := field.Validate(); err != nil {
-			return err
-		}
-	}
-	return nil
-}
 
 type RecordPermission struct {
 	Role       string

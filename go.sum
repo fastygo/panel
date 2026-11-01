@@ -1,0 +1,4 @@
+github.com/fastygo/codex v0.4.2 h1:MteZSyOxumUKB0g/j2hB3rbcfUPGqpDu61eEiAXkKmE=
+github.com/fastygo/codex v0.4.2/go.mod h1:cnfm27cLIHfAH7UUbVF5p9AtaE827yVKRG7FG635moU=
+github.com/fastygo/formset v0.2.1-0.20261101205946-f98b533f0d6a h1:ihoBnrj/mO/a425DULzSYxbzYYiy7xs7kA1qd1Bp7yw=
+github.com/fastygo/formset v0.2.1-0.20261101205946-f98b533f0d6a/go.mod h1:/CWKj/qEhryddSG7QWgLJkjK5Dm7kAfOiuNugnBe13I=

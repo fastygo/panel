@@ -3,8 +3,13 @@ package panel
 import (
 	"fmt"
 	"strings"
+
+	"github.com/fastygo/codex/schema"
 )
 
+// FieldType is a panel UI widget. Data types come from Codex: see
+// Field.DataType and ResourceFromRecord. Widgets that share a name with a
+// Codex field type use the same string.
 type FieldType string
 
 const (
@@ -27,6 +32,7 @@ const (
 	FieldStatus       FieldType = "status"
 	FieldTimeline     FieldType = "timeline"
 	FieldRelationship FieldType = "relationship"
+	FieldObject       FieldType = "object"
 )
 
 type SchemaLayout string
@@ -37,11 +43,8 @@ const (
 	SchemaTabs  SchemaLayout = "tabs"
 )
 
-type ValidationRule struct {
-	Name    string
-	Message string
-	Args    map[string]string
-}
+// ValidationRule is the Codex validation rule (fastygo.codex/* names).
+type ValidationRule = schema.ValidationRule
 
 type Option struct {
 	Value       string
@@ -75,6 +78,11 @@ type Field struct {
 	Fields       []Field
 	Rules        []ValidationRule
 	ColumnSpan   int
+	// DataType is the Codex field type this widget edits, when the field was
+	// projected from a Codex record (empty for UI-only fields).
+	DataType schema.FieldType
+	// Localized mirrors the Codex field: the value is stored per locale.
+	Localized bool
 }
 
 func (f Field) Validate() error {
