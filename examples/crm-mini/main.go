@@ -18,7 +18,9 @@ func (p principal) Has(cap capability) bool {
 	return ok
 }
 
-func main() {
+func main() { run() }
+
+func run() {
 	crm, err := panel.NewPanel[principal, capability](panel.PanelOptions[capability]{
 		ID:       "crm",
 		Title:    "CRM",
