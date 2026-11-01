@@ -24,7 +24,44 @@ Applications own:
 
 - CMS content services, CRM leads/deals, operations metrics/incidents, chat conversations, storage adapters, external APIs, and business workflows.
 
-Panel does not own Codex content fields or FormSet editor binding. A backend projects a manifest into these descriptors.
+Panel does not own content fields. **Codex is the single source of truth**:
+records are `github.com/fastygo/codex/schema.RecordType` (also
+`formset.RecordType`, the same type) and `ResourceFromRecord` projects them
+into a resource. Validation of create/edit data goes through formset.
+
+| panel | codex | formset |
+|---|---|---|
+| main (Unreleased) | v0.4.2 | main pseudo-version |
+| v0.1.0 | — | — |
+
+## From a Codex record
+
+```go
+record := schema.RecordType{
+	ID: "pages", Label: "Pages", Scope: schema.ScopeWorkspace,
+	Fields: []schema.Field{
+		{ID: "title", Label: "Title", Type: schema.FieldText, Required: true, Localized: true, Searchable: true, Indexed: true},
+		{ID: "status", Label: "Status", Type: schema.FieldSelect, Indexed: true,
+			Options: []schema.Option{{Value: "draft", Label: "Draft"}}},
+		{ID: "price", Label: "Price", Type: schema.FieldNumber, Indexed: true,
+			Rules: []schema.ValidationRule{{Name: schema.RuleMoney}}},
+		{ID: "cover", Label: "Cover", Type: schema.FieldRelation, UIHint: schema.UIHintMedia},
+	},
+}
+resource := panel.ResourceFromRecord(record, panel.ResourceOptions[capability]{
+	BasePath:     "/admin/pages",
+	Capabilities: map[panel.ResourceOperation]capability{panel.OperationList: "pages.read"},
+	TrailColumns: []panel.Column{{ID: "updated_at", Label: "Updated", Type: panel.ColumnDateTime}},
+})
+// columns: title (text), status (badge), price (number); filters: status
+// fields: widgets + DataType + Codex Rules; cover → file widget
+issues := panel.RecordValidator{Record: record, Locale: "en"}.Validate(ctx, command)
+```
+
+Projection rules: columns = `Indexed || Searchable` fields (not sensitive or
+encrypted, max 6 by default); filters = indexed select/boolean/datetime;
+`collection` of select → multiselect, of object → repeater; `computed` and
+`fastygo.codex/read-only` → read-only.
 
 ## Minimal Example
 

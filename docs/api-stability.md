@@ -23,7 +23,8 @@ Panel starts as a `v0` package.
 - `FormSchema`
 - `TableSchema`
 - `DataSource`
-- `RecordType`
+- `RecordType` (alias of Codex `schema.RecordType`)
+- `ResourceFromRecord`, `RecordValidator`
 - `Workflow`
 - `Report`
 - `ImportExportDescriptor`
