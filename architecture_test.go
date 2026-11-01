@@ -14,8 +14,7 @@ func TestPanelDoesNotImportGoCMS(t *testing.T) {
 			return err
 		}
 		if entry.IsDir() {
-			switch entry.Name() {
-			case ".git":
+			if entry.Name() == ".git" {
 				return filepath.SkipDir
 			}
 			return nil
